@@ -8,21 +8,19 @@
     tools:context=".MainActivity3">
 
 
-
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="@drawable/space3">
 
 
-
         <ImageView
             android:id="@+id/iamge_star"
             android:layout_width="50dp"
             android:layout_height="50dp"
+            android:layout_marginTop="3dp"
             android:src="@drawable/star__1_"
-            app:tint="@color/default_shape_inactive_color"
-            android:layout_marginTop="3dp"/>
+            app:tint="@color/default_shape_inactive_color" />
 
 
         <View
@@ -33,7 +31,6 @@
             android:layout_marginTop="30dp"
             android:layout_toRightOf="@id/iamge_star"
             android:background="@color/default_shape_inactive_color" />
-
 
 
         <TextView
@@ -65,21 +62,172 @@
 
 
         <RelativeLayout
+            android:id="@+id/relative_otp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@id/text_welocome"
-            android:layout_marginTop="20dp">
+
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="25dp"
+            android:gravity="center_horizontal">
 
             <EditText
+                android:id="@+id/otp1"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:paddingHorizontal="30dp"
-                android:paddingVertical="30dp"
-                android:background="@drawable/otpboxdegin"/>
+                android:layout_marginHorizontal="5dp"
+                android:hint="3"
+                android:textColorHint="@color/white"
+                android:maxLength="1"
+                android:background="@drawable/otpboxdegin"
+                android:paddingHorizontal="25dp"
+                android:paddingVertical="30dp" />
+
+            <EditText
+                android:id="@+id/otp2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="5dp"
+                android:layout_toRightOf="@id/otp1"
+                android:hint="3"
+                android:maxLength="1"
+                android:textColorHint="@color/white"
+                android:background="@drawable/otpboxdegin"
+                android:paddingHorizontal="25dp"
+                android:paddingVertical="30dp" />
+
+            <EditText
+                android:id="@+id/otp3"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="5dp"
+                android:layout_toRightOf="@id/otp2"
+                android:hint="3"
+                android:maxLength="1"
+                android:textColorHint="@color/white"
+                android:background="@drawable/otpboxdegin"
+                android:paddingHorizontal="25dp"
+                android:paddingVertical="30dp" />
+
+            <EditText
+                android:id="@+id/otp4"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="5dp"
+                android:layout_toRightOf="@id/otp3"
+                android:hint="3"
+                android:maxLength="1"
+                android:textColorHint="@color/white"
+                android:background="@drawable/otpboxdegin"
+                android:paddingHorizontal="25dp"
+                android:paddingVertical="30dp" />
+
+
+        </RelativeLayout>
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/verify_first"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/relative_otp"
+            android:layout_centerHorizontal="true"
+            android:layout_marginHorizontal="40dp"
+            android:layout_marginTop="40dp"
+            android:background="@drawable/btndegin"
+            android:fontFamily="@font/poppins_medium"
+            android:paddingHorizontal="50dp"
+            android:text="verify"
+            android:textColor="@color/white"
+            android:textStyle="bold" />
+
+        <RelativeLayout
+            android:id="@+id/relative_click_to_resend"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/verify_first"
+            android:gravity="center_horizontal"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="20dp">
+
+            <TextView
+                android:id="@+id/dint_recive_otp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="2dp"
+                android:fontFamily="@font/poppins_medium"
+                android:text="Didn't recived the code? "
+                android:textColor="@color/edit_tv_color" />
+
+
+            <TextView
+                android:id="@+id/click_to_resnd"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerHorizontal="true"
+                android:layout_marginTop="2dp"
+                android:layout_toRightOf="@id/dint_recive_otp"
+                android:fontFamily="@font/poppin_bold"
+                android:text="Click to resend "
+                android:textColor="@color/edit_tv_color" />
+
+
+
 
 
 
         </RelativeLayout>
+
+        <RelativeLayout
+
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/relative_click_to_resend"
+            android:layout_marginTop="20dp"
+            android:layout_centerHorizontal="true">
+
+
+
+
+
+            <ImageView
+                android:id="@+id/arrow"
+                android:layout_width="25dp"
+                android:layout_height="25dp"
+                android:src="@drawable/arrow_left"
+                app:tint="@color/white" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Back to Log in"
+                android:textSize="16sp"
+                android:textColor="@color/white"
+                android:fontFamily="@font/poppin_bold"
+                android:layout_toRightOf="@id/arrow"/>
+
+
+
+
+
+
+
+
+        </RelativeLayout>
+
+
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_marginBottom="10dp"
+            android:text="X"
+            android:layout_centerHorizontal="true"
+            android:textColor="@color/red"
+            android:textSize="50sp"
+            android:textStyle="bold" />
+
+
 
 
     </RelativeLayout>

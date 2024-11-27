@@ -19,7 +19,7 @@
             android:layout_width="50dp"
             android:layout_height="50dp"
             android:src="@drawable/star__1_"
-            android:tint="@color/default_shape_inactive_color" />
+            app:tint="@color/default_shape_inactive_color" />
 
 
         <View
@@ -138,7 +138,7 @@
 
 
         <androidx.appcompat.widget.AppCompatButton
-            android:id="@+id/LoginButton_first"
+            android:id="@+id/singupButton_first"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@id/edittext_password"
@@ -157,7 +157,7 @@
             android:id="@+id/lennear_first"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_below="@id/LoginButton_first"
+            android:layout_below="@id/singupButton_first"
             android:layout_marginTop="30dp"
             android:gravity="center_horizontal"
             android:orientation="horizontal">
