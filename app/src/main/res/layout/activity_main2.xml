@@ -81,6 +81,7 @@
             android:background="@drawable/edittext_degin"
             android:fontFamily="@font/poppins_medium"
             android:hint="Enter your name"
+            android:textColor="@color/white"
             android:maxLines="1"
             android:padding="12dp"
             android:textColorHint="@color/white" />
@@ -104,6 +105,7 @@
             android:layout_below="@id/text_emai"
             android:layout_marginHorizontal="20sp"
             android:background="@drawable/edittext_degin"
+            android:textColor="@color/white"
             android:fontFamily="@font/poppins_medium"
             android:hint="Enter your Email"
             android:maxLines="1"
@@ -132,6 +134,7 @@
             android:background="@drawable/edittext_degin"
             android:fontFamily="@font/poppins_medium"
             android:hint="password"
+            android:textColor="@color/white"
             android:maxLines="1"
             android:padding="12dp"
             android:textColorHint="@color/white" />
@@ -190,23 +193,22 @@
         </LinearLayout>
 
 
-
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@id/lennear_first"
             android:layout_centerHorizontal="true"
-            android:gravity="center_horizontal"
-            android:layout_marginTop="10dp">
+            android:layout_marginTop="10dp"
+            android:gravity="center_horizontal">
 
             <TextView
                 android:id="@+id/text_dont_have_account"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Already have a account? "
-                android:textColor="@color/edit_tv_color"
+                android:layout_marginTop="2dp"
                 android:fontFamily="@font/poppins_medium"
-                android:layout_marginTop="2dp"/>
+                android:text="Already have a account? "
+                android:textColor="@color/edit_tv_color" />
 
             <TextView
                 android:id="@+id/text_singup"
@@ -214,26 +216,12 @@
                 android:layout_height="wrap_content"
                 android:layout_centerHorizontal="true"
                 android:layout_toRightOf="@id/text_dont_have_account"
+                android:fontFamily="@font/poppin_bold"
                 android:text="Log in "
                 android:textColor="@color/red"
-                android:fontFamily="@font/poppin_bold"
                 android:textSize="16sp" />
 
         </RelativeLayout>
-
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentBottom="true"
-            android:layout_marginBottom="10dp"
-            android:text="X"
-            android:layout_centerHorizontal="true"
-            android:textColor="@color/red"
-            android:textSize="50sp"
-            android:textStyle="bold" />
-
-
 
 
     </RelativeLayout>
