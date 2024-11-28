@@ -10,7 +10,7 @@ class EmailValidator : Ivalidator<String> {
     override fun validate(input: String): String? {
         return when{
             input.isEmpty() -> "Email is required"
-            !input.contains("@") && input.contains(".")-> "Invalid email format"
+            !input.matches("^[A-Za-z0-9+_.-]+@[A-Za-z0-9.-]+$".toRegex()) -> "Invalid email format"
             else -> null
         }
     }
