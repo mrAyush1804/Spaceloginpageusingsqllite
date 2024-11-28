@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".MainActivity4"
+    android:orientation="vertical"
+    android:background="@drawable/space4">
+
+    <RelativeLayout
+        android:id="@+id/relative_recy"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+
+
+        <ImageView
+            android:layout_width="100dp"
+            android:layout_height="50dp"
+            android:src="@drawable/star__1_"
+            app:tint="@color/red"
+            android:layout_toLeftOf="@id/text_first_ac4"
+            android:layout_marginTop="10dp"/>
+<ImageView
+            android:layout_width="100dp"
+            android:layout_height="50dp"
+            android:src="@drawable/star__1_"
+            app:tint="@color/red"
+            android:layout_toRightOf="@id/text_first_ac4"
+            android:layout_marginTop="10dp"/>
+
+
+        <TextView
+            android:id="@+id/text_first_ac4"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="20dp"
+            android:layout_marginTop="5dp"
+            android:fontFamily="@font/poppin_bold"
+            android:text="Space Astronaut "
+            android:textColor="@color/white"
+            android:gravity="center_horizontal"
+            android:layout_centerHorizontal="true"
+            android:textSize="30sp"
+            android:textStyle="bold" />
+
+
+    </RelativeLayout>
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recycleviewfirst"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        tools:listitem="@layout/listofrecycleview"/>
+
+</LinearLayout>

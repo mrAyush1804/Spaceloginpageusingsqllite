@@ -20,4 +20,5 @@
     <color name="default_badge_background_color">#B86560</color>
     <color name="default_badge_text_color">#ffffff</color>
     <color name="transprentble">#48565f</color>
+    <color name="listcard_transparent">#C1151313</color>
 </resources>

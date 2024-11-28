@@ -77,17 +77,21 @@ class DatabaseHelper private constructor(context: Context) :
         val userList = mutableListOf<User>()
         val query = "SELECT * FROM ${UserTable.NAME} LIMIT ? OFFSET ?"
 
-        readableDatabase.rawQuery(query, arrayOf(limit.toString(), offset.toString())).use { cursor ->
-            if (cursor.moveToFirst()) {
-                do {
-                    val id = cursor.getInt(cursor.getColumnIndexOrThrow(UserTable.Columns.ID))
-                    val username = cursor.getString(cursor.getColumnIndexOrThrow(UserTable.Columns.USERNAME))
-                    val email = cursor.getString(cursor.getColumnIndexOrThrow(UserTable.Columns.EMAIL))
-                    val password = cursor.getString(cursor.getColumnIndexOrThrow(UserTable.Columns.PASSWORD))
-                    userList.add(User(id, username, email, password))
-                } while (cursor.moveToNext())
+        readableDatabase.rawQuery(query, arrayOf(limit.toString(), offset.toString()))
+            .use { cursor ->
+                if (cursor.moveToFirst()) {
+                    do {
+                        val id = cursor.getInt(cursor.getColumnIndexOrThrow(UserTable.Columns.ID))
+                        val username =
+                            cursor.getString(cursor.getColumnIndexOrThrow(UserTable.Columns.USERNAME))
+                        val email =
+                            cursor.getString(cursor.getColumnIndexOrThrow(UserTable.Columns.EMAIL))
+                        val password =
+                            cursor.getString(cursor.getColumnIndexOrThrow(UserTable.Columns.PASSWORD))
+                        userList.add(User(id, username, email, password))
+                    } while (cursor.moveToNext())
+                }
             }
-        }
         return userList
     }
 
@@ -109,6 +113,7 @@ class DatabaseHelper private constructor(context: Context) :
             -1
         }
     }
+
     fun deleteUser(id: Int): Int {
         return writableDatabase.delete(
             UserTable.NAME,
@@ -116,6 +121,7 @@ class DatabaseHelper private constructor(context: Context) :
             arrayOf(id.toString())
         )
     }
+
     fun validateUser(username: String, password: String): Boolean {
         val query = """
         SELECT ${UserTable.Columns.PASSWORD} FROM ${UserTable.NAME} 
@@ -128,7 +134,7 @@ class DatabaseHelper private constructor(context: Context) :
                         cursor.getColumnIndexOrThrow(UserTable.Columns.PASSWORD)
                     )
 
-                    // Compare the entered password directly with the stored password
+
                     return storedPassword == password
                 }
                 false
