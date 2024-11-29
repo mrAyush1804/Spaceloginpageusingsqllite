@@ -4,45 +4,45 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/main"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    tools:context=".MainActivity4"
+    android:layout_height="wrap_content"
+    android:background="@drawable/space4"
     android:orientation="vertical"
-    android:background="@drawable/space4">
+    tools:context=".MainActivity4">
 
     <RelativeLayout
         android:id="@+id/relative_recy"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="10dp"
+        android:layout_marginTop="30dp">
 
 
         <ImageView
-            android:layout_width="100dp"
-            android:layout_height="50dp"
-            android:src="@drawable/star__1_"
-            app:tint="@color/red"
+            android:layout_width="200dp"
+            android:layout_height="100dp"
             android:layout_toLeftOf="@id/text_first_ac4"
-            android:layout_marginTop="10dp"/>
-<ImageView
-            android:layout_width="100dp"
-            android:layout_height="50dp"
             android:src="@drawable/star__1_"
-            app:tint="@color/red"
+            app:tint="@color/red" />
+
+        <ImageView
+            android:layout_width="200dp"
+            android:layout_height="100dp"
             android:layout_toRightOf="@id/text_first_ac4"
-            android:layout_marginTop="10dp"/>
+            android:src="@drawable/star__1_"
+            app:tint="@color/red" />
 
 
         <TextView
             android:id="@+id/text_first_ac4"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
             android:layout_marginHorizontal="20dp"
             android:layout_marginTop="5dp"
             android:fontFamily="@font/poppin_bold"
+            android:gravity="center_horizontal"
             android:text="Space Astronaut "
             android:textColor="@color/white"
-            android:gravity="center_horizontal"
-            android:layout_centerHorizontal="true"
             android:textSize="30sp"
             android:textStyle="bold" />
 
@@ -52,7 +52,8 @@
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recycleviewfirst"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        tools:listitem="@layout/listofrecycleview"/>
+        android:layout_height="match_parent"
+        tools:itemCount="9"
+        tools:listitem="@layout/listofrecycleview" />
 
 </LinearLayout>

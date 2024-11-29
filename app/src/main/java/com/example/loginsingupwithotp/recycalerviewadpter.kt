@@ -1,5 +1,6 @@
 package com.example.loginsingupwithotp
 
+import android.annotation.SuppressLint
 import android.content.Context
 import android.view.LayoutInflater
 import android.view.View
@@ -13,6 +14,7 @@ class recycalerviewadpter(private val mlist:List<DatabaseHelper.User>,private va
     init {
         this.listofitem=mlist
     }
+
     class MyViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         val name:TextView=itemView.findViewById(R.id.text_name_list)
         val email:TextView=itemView.findViewById(R.id.text_emai_list)
@@ -22,6 +24,7 @@ class recycalerviewadpter(private val mlist:List<DatabaseHelper.User>,private va
 
     }
 
+    @SuppressLint("SuspiciousIndentation")
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MyViewHolder {
       val view =LayoutInflater.from(context).inflate(R.layout.listofrecycleview,parent,false)
         return MyViewHolder(view)

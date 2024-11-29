@@ -1,5 +1,6 @@
 import android.content.ContentValues
 import android.content.Context
+import android.database.Cursor
 import android.database.sqlite.SQLiteDatabase
 import android.database.sqlite.SQLiteOpenHelper
 import android.util.Log
@@ -10,7 +11,7 @@ class DatabaseHelper private constructor(context: Context) :
 
     companion object {
         private const val DATABASE_NAME = "UserDatabase.db"
-        private const val DATABASE_VERSION = 1
+        private const val DATABASE_VERSION = 2
 
 
         @Volatile
@@ -34,6 +35,19 @@ class DatabaseHelper private constructor(context: Context) :
         }
     }
 
+    object OTPTable {
+        const val NAME = "OTP"
+
+        object Columns {
+            const val ID = "id"
+            const val Phonenumber = "Phone_number"
+            const val OTP = "otp"
+
+            const val EXPIRETIME = "Expire_TIME"
+        }
+
+    }
+
     private val CREATE_USER_TABLE = """
         CREATE TABLE ${UserTable.NAME} (
             ${UserTable.Columns.ID} INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -43,18 +57,32 @@ class DatabaseHelper private constructor(context: Context) :
         )
     """.trimIndent()
 
+    private val CREATE_OTP_TABLE = """
+    CREATE TABLE ${OTPTable.NAME}(
+            ${OTPTable.Columns.ID} INTEGER PRIMARY KEY AUTOINCREMENT,
+            ${OTPTable.Columns.Phonenumber} TEXT NOT NULL,
+            ${OTPTable.Columns.OTP} TEXT NOT NULL,
+            ${OTPTable.Columns.EXPIRETIME} INTEGER NOT NULL
+
+    )
+  """.trimIndent()
+
     private val DROP_USER_TABLE = "DROP TABLE IF EXISTS ${UserTable.NAME}"
+    private val DROP_OTP_TABLE  =  "DROP TABLE IF EXISTS ${OTPTable.NAME}"
 
     override fun onCreate(db: SQLiteDatabase) {
         db.execSQL(CREATE_USER_TABLE)
+        db.execSQL(CREATE_OTP_TABLE)
         Log.d("DatabaseHelper", "Database and User table created")
     }
 
     override fun onUpgrade(db: SQLiteDatabase, oldVersion: Int, newVersion: Int) {
         if (oldVersion < DATABASE_VERSION) {
             db.execSQL(DROP_USER_TABLE)
+            db.execSQL(DROP_OTP_TABLE)
             onCreate(db)
         }
+
     }
 
 
@@ -72,6 +100,26 @@ class DatabaseHelper private constructor(context: Context) :
             -1L
         }
     }
+
+    fun insertOTP(phonenumber:String,OTP:String,Expiretime:Long):Long
+    {
+        val values=ContentValues().apply {
+            put(OTPTable.Columns.OTP,OTP)
+            put(OTPTable.Columns.Phonenumber,phonenumber)
+            put(OTPTable.Columns.EXPIRETIME,Expiretime)
+        }
+        return try {
+            writableDatabase.replace(OTPTable.NAME, null, values)
+        } catch (e: Exception) {
+            Log.e("DatabaseHelper", "Error inserting OTP", e)
+            -1L
+
+        }
+
+
+
+    }
+
 
     fun getUsers(limit: Int = 10, offset: Int = 0): List<User> {
         val userList = mutableListOf<User>()
@@ -94,6 +142,41 @@ class DatabaseHelper private constructor(context: Context) :
             }
         return userList
     }
+    fun validateOTP(phoneNumber: String, otp: String): Boolean {
+        val query = """
+        SELECT ${OTPTable.Columns.EXPIRETIME} 
+        FROM ${OTPTable.NAME} 
+        WHERE ${OTPTable.Columns.Phonenumber} = ? AND ${OTPTable.Columns.OTP} = ?
+    """
+        return try {
+            readableDatabase.rawQuery(query, arrayOf(phoneNumber, otp)).use { cursor ->
+                if (cursor.moveToFirst()) {
+                    val expiryTime = cursor.getLong(cursor.getColumnIndexOrThrow(OTPTable.Columns.EXPIRETIME))
+                    if (System.currentTimeMillis() <= expiryTime) {
+                        deleteOTP(phoneNumber, otp)
+                        true
+                    } else {
+                        false
+                    }
+                } else {
+                    false
+                }
+            }
+        } catch (e: Exception) {
+            Log.e("DatabaseHelper", "Error validating OTP", e)
+            false
+        }
+    }
+
+    private fun deleteOTP(phoneNumber: String, otp: String): Int {
+        return writableDatabase.delete(
+            OTPTable.NAME,
+            "${OTPTable.Columns.Phonenumber} = ? AND ${OTPTable.Columns.OTP} = ?",
+            arrayOf(phoneNumber, otp)
+        )
+    }
+
+
 
     fun updateUser(id: Int, username: String, email: String, password: String): Int {
         val values = ContentValues().apply {

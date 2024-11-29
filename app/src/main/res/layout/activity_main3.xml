@@ -52,13 +52,30 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@id/text_createaccount"
-            android:layout_marginHorizontal="20dp"
+            android:layout_marginHorizontal="2dp"
             android:layout_marginTop="5dp"
+            android:layout_marginStart="20dp"
             android:fontFamily="@font/poppins_medium"
-            android:text="We sent a verification in this no 74XXXXXXX"
+            android:text="We sent a "
             android:textColor="@color/default_shape_inactive_color"
             android:textSize="16sp"
             android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/Number_phone"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/text_createaccount"
+            android:layout_marginTop="5dp"
+            android:layout_toRightOf="@id/text_welocome"
+            android:layout_marginBottom="20dp"
+            android:fontFamily="@font/poppins_medium"
+
+            android:text=" 74XXXXXXX"
+            android:textColor="@color/default_shape_inactive_color"
+            android:textSize="16sp"
+            android:textStyle="bold" />
+
 
 
         <RelativeLayout
@@ -76,11 +93,12 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginHorizontal="5dp"
-                android:hint="3"
+                android:textColor="@color/white"
+                android:paddingHorizontal="30dp"
                 android:textColorHint="@color/white"
+                android:inputType="number"
                 android:maxLength="1"
                 android:background="@drawable/otpboxdegin"
-                android:paddingHorizontal="25dp"
                 android:paddingVertical="30dp" />
 
             <EditText
@@ -89,11 +107,12 @@
                 android:layout_height="wrap_content"
                 android:layout_marginHorizontal="5dp"
                 android:layout_toRightOf="@id/otp1"
-                android:hint="3"
+                android:textColor="@color/white"
+                android:inputType="number"
+                android:paddingHorizontal="30dp"
                 android:maxLength="1"
                 android:textColorHint="@color/white"
                 android:background="@drawable/otpboxdegin"
-                android:paddingHorizontal="25dp"
                 android:paddingVertical="30dp" />
 
             <EditText
@@ -102,11 +121,13 @@
                 android:layout_height="wrap_content"
                 android:layout_marginHorizontal="5dp"
                 android:layout_toRightOf="@id/otp2"
-                android:hint="3"
+                android:paddingHorizontal="30dp"
+                android:inputType="number"
                 android:maxLength="1"
+                android:textColor="@color/white"
                 android:textColorHint="@color/white"
                 android:background="@drawable/otpboxdegin"
-                android:paddingHorizontal="25dp"
+
                 android:paddingVertical="30dp" />
 
             <EditText
@@ -115,11 +136,12 @@
                 android:layout_height="wrap_content"
                 android:layout_marginHorizontal="5dp"
                 android:layout_toRightOf="@id/otp3"
-                android:hint="3"
+                 android:textColor="@color/white"
                 android:maxLength="1"
+                android:inputType="number"
                 android:textColorHint="@color/white"
                 android:background="@drawable/otpboxdegin"
-                android:paddingHorizontal="25dp"
+                android:paddingHorizontal="30dp"
                 android:paddingVertical="30dp" />
 
 

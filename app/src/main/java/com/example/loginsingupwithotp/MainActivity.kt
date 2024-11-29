@@ -45,7 +45,7 @@ class MainActivity : AppCompatActivity() {
         if (userexist)
         {
             Toast.makeText(this,"LOGIN SUCCESFULLY",Toast.LENGTH_SHORT).show()
-            val intent=Intent(this,MainActivity3::class.java)
+            val intent=Intent(this,MainActivity4::class.java)
             startActivity(intent)
         }else{
             Toast.makeText(this,"LOGIN FAIL",Toast.LENGTH_SHORT).show()
@@ -57,6 +57,7 @@ class MainActivity : AppCompatActivity() {
 
         EditText_passwor=findViewById(R.id.EditText_first)
         EditText_name=findViewById(R.id.EditText_second)
+
     }
 
 }

@@ -14,14 +14,20 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 
 @Suppress("DEPRECATION")
 class MainActivity2 : AppCompatActivity() {
    private  lateinit var databaseHelper: DatabaseHelper
+     lateinit var recyclerView: RecyclerView
+    private lateinit var adapter: recycalerviewadpter
     private lateinit var validationManager: ValidationManager
     private  lateinit var EditText_name:EditText
     private lateinit var EditText_passwor:EditText
     private lateinit var EditText_email:EditText
+    private lateinit var EditText_phone:EditText
+    var datalist:List<DatabaseHelper.User> = ArrayList<DatabaseHelper.User>()
     @SuppressLint("MissingInflatedId")
     override fun onCreate(savedInstanceState: Bundle?) {
         window.statusBarColor=ContextCompat.getColor(this,R.color.black)
@@ -29,20 +35,26 @@ class MainActivity2 : AppCompatActivity() {
         setContentView(R.layout.activity_main2)
         databaseHelper=DatabaseHelper.getInstance(this)
 
+
+
         validationManager = ValidationManager(
             emailValidator = EmailValidator(),
             passwordValidator = Password(),
-            nameValidator = namevalidator()
+            nameValidator = namevalidator(),
+            phoneNumberValidator = PhoneNumberValidator()
+
         )
         Inslizes()
+
         val btnsingup = findViewById<Button>(R.id.singupButton_first)
         btnsingup.setOnClickListener {
             val name = EditText_name.text.toString()
             val email = EditText_email.text.toString()
             val password = EditText_passwor.text.toString()
+            val phoneNumber = EditText_phone.text.toString()
 
 
-            singupdatabase(name, email, password)
+            singupdatabase(name, email, password,phoneNumber)
 
         }
 
@@ -51,6 +63,7 @@ class MainActivity2 : AppCompatActivity() {
             EditText_email to validationManager::validateEmail,
             EditText_name to validationManager::validateName,
             EditText_passwor to validationManager::validatePassword
+
         )
         validationMap.forEach { (field, validator) ->
             applyValidation(field, validator)
@@ -60,13 +73,14 @@ class MainActivity2 : AppCompatActivity() {
 
 
     }
-    private fun singupdatabase(name:String ,email:String,password:String)
+    private fun singupdatabase(name:String ,email:String,password:String,Phone:String)
     {
 
         val errors = validationManager.validateAll(
             EditText_email.text.toString(),
             EditText_passwor.text.toString(),
-            EditText_name.text.toString()
+            EditText_name.text.toString(),
+            EditText_phone.text.toString()
         )
 
 
@@ -74,12 +88,14 @@ class MainActivity2 : AppCompatActivity() {
             val name=EditText_name.text.toString()
             val email = EditText_email.text.toString()
             val password = EditText_passwor.text.toString()
+            val Phoneno= EditText_phone.text.toString()
             val result = databaseHelper.insertUser(name,email,password)
             if (result != -1L) {
-                Toast.makeText(this, "Login Successful", Toast.LENGTH_SHORT).show()
+                Toast.makeText(this, "Singup Successful", Toast.LENGTH_SHORT).show()
 
 
-                val intent = Intent(this, MainActivity::class.java)
+                val intent = Intent(this, MainActivity3::class.java)
+                intent.putExtra("phoneNumber", EditText_phone.text.toString())
                 startActivity(intent)
             } else {
                 Toast.makeText(this, "Invalid email or password", Toast.LENGTH_SHORT).show()
@@ -105,11 +121,16 @@ class MainActivity2 : AppCompatActivity() {
         })
     }
 
+
+
+
     fun Inslizes()
     {
         EditText_email=findViewById(R.id.edittext_email)
         EditText_passwor=findViewById(R.id.edittext_password)
         EditText_name=findViewById(R.id.edittext_name)
+        EditText_phone=findViewById(R.id.edittext_phone)
+
     }
 }
 
