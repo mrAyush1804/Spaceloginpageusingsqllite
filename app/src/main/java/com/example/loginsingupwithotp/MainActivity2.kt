@@ -8,6 +8,7 @@ import android.text.Editable
 import android.text.TextWatcher
 import android.widget.Button
 import android.widget.EditText
+import android.widget.TextView
 import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
@@ -27,6 +28,7 @@ class MainActivity2 : AppCompatActivity() {
     private lateinit var EditText_passwor:EditText
     private lateinit var EditText_email:EditText
     private lateinit var EditText_phone:EditText
+    private lateinit var textViewlogin: TextView
     var datalist:List<DatabaseHelper.User> = ArrayList<DatabaseHelper.User>()
     @SuppressLint("MissingInflatedId")
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -45,6 +47,11 @@ class MainActivity2 : AppCompatActivity() {
 
         )
         Inslizes()
+        val logingo=findViewById<TextView>(R.id.text_login)
+        logingo.setOnClickListener{
+            startActivity(Intent(this,MainActivity::class.java))
+        }
+
 
         val btnsingup = findViewById<Button>(R.id.singupButton_first)
         btnsingup.setOnClickListener {
@@ -53,9 +60,16 @@ class MainActivity2 : AppCompatActivity() {
             val password = EditText_passwor.text.toString()
             val phoneNumber = EditText_phone.text.toString()
 
-
-            singupdatabase(name, email, password,phoneNumber)
-
+            if (validationManager.validateAll(email, password, name, phoneNumber).isEmpty()) {
+                val intent = Intent(this, MainActivity3::class.java)
+                intent.putExtra("name", name)
+                intent.putExtra("email", email)
+                intent.putExtra("password", password)
+                intent.putExtra("phoneNumber", phoneNumber)
+                startActivity(intent)
+            } else {
+                Toast.makeText(this, "Please fill in valid details.", Toast.LENGTH_SHORT).show()
+            }
         }
 
 
@@ -73,7 +87,8 @@ class MainActivity2 : AppCompatActivity() {
 
 
     }
-    private fun singupdatabase(name:String ,email:String,password:String,Phone:String)
+
+  /*  private fun singupdatabase(name:String ,email:String,password:String,Phone:String)
     {
 
         val errors = validationManager.validateAll(
@@ -90,22 +105,19 @@ class MainActivity2 : AppCompatActivity() {
             val password = EditText_passwor.text.toString()
             val Phoneno= EditText_phone.text.toString()
             val result = databaseHelper.insertUser(name,email,password)
-            if (result != -1L) {
-                Toast.makeText(this, "Singup Successful", Toast.LENGTH_SHORT).show()
-
-
-                val intent = Intent(this, MainActivity3::class.java)
-                intent.putExtra("phoneNumber", EditText_phone.text.toString())
-                startActivity(intent)
-            } else {
-                Toast.makeText(this, "Invalid email or password", Toast.LENGTH_SHORT).show()
+            val intent = Intent(this, MainActivity3::class.java).apply {
+                putExtra("name", name)
+                putExtra("email", email)
+                putExtra("password", password)
+                putExtra("phoneNumber", Phoneno)
             }
+            startActivity(intent)
         } else {
             Toast.makeText(this, "Please fill in all the required fields", Toast.LENGTH_SHORT).show()
         }
 
     }
-
+*/
     private fun applyValidation(editText: EditText, validateFunction: (String) -> String?) {
         editText.addTextChangedListener(object : TextWatcher {
             override fun afterTextChanged(s: Editable?) {
