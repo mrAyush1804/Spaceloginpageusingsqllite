@@ -26,7 +26,6 @@ class MainActivity3 : AppCompatActivity() {
     private lateinit var edit_otp_4:EditText
     private lateinit var Button_verify:Button
     private lateinit var resend:TextView
-    private lateinit var backlogin:TextView
     override fun onCreate(savedInstanceState: Bundle?) {
         window.statusBarColor = ContextCompat.getColor(this, R.color.black)
         super.onCreate(savedInstanceState)
@@ -35,7 +34,7 @@ class MainActivity3 : AppCompatActivity() {
         databaseHelper=DatabaseHelper.getInstance(this)
 
         inSlized()
-        setupOtpAutoFocusReverse()
+        setupOtpAutoFocus()
 
         Phonnumbertext.text = intent.getStringExtra("phoneNumber").orEmpty().toString()
 
@@ -44,37 +43,26 @@ class MainActivity3 : AppCompatActivity() {
         val expireTime = System.currentTimeMillis() + 300000
         val otpInserted = databaseHelper.insertOTP(Phonnumbertext.text.toString(), otp, expireTime)
         Toast.makeText(this, "OTP Sent: $otp", Toast.LENGTH_SHORT).show()
-
-        backlogin.setOnClickListener{
-            startActivity(Intent(this,MainActivity::class.java))
-        }
+        Button_verify.setOnClickListener{
 
 
-
-        Button_verify.setOnClickListener {
             val enteredOTP = edit_otp_1.text.toString() + edit_otp_2.text.toString() +
                     edit_otp_3.text.toString() + edit_otp_4.text.toString()
 
-            val phoneNumber = intent.getStringExtra("phoneNumber").orEmpty()
-            val name = intent.getStringExtra("name").orEmpty()
-            val email = intent.getStringExtra("email").orEmpty()
-            val password = intent.getStringExtra("password").orEmpty()
+            val storedOtp =databaseHelper.verifyAndCopyUser(Phonnumbertext.text.toString(),enteredOTP)
 
-            if (databaseHelper.validateOTP(phoneNumber, enteredOTP)) {
-                val result = databaseHelper.insertUser(name, email, password)
-                if (result != -1L) {
-                    Toast.makeText(this, "Signup Successful!", Toast.LENGTH_SHORT).show()
-                    startActivity(Intent(this, MainActivity4::class.java))
-                } else {
-                    Toast.makeText(this, "Signup Failed. Try Again.", Toast.LENGTH_SHORT).show()
-                }
+
+
+
+            if ( storedOtp) {
+                Toast.makeText(this, "OTP Verified Successfully", Toast.LENGTH_SHORT).show()
+                val Userveryfy=databaseHelper.verifyAndCopyUser(Phonnumbertext.text.toString(),enteredOTP)
+
+                startActivity(Intent(this, MainActivity4::class.java))
             } else {
                 Toast.makeText(this, "Invalid OTP", Toast.LENGTH_SHORT).show()
             }
         }
-
-
-
         resend.setOnClickListener{
             val otpResent = resendOTP(Phonnumbertext.text.toString())
             Toast.makeText(this, "OTP Resent: $otpResent", Toast.LENGTH_SHORT).show()
@@ -90,7 +78,6 @@ class MainActivity3 : AppCompatActivity() {
         edit_otp_4=findViewById(R.id.otp4)
         Button_verify=findViewById(R.id.verify_first)
         resend=findViewById(R.id.click_to_resnd)
-        backlogin=findViewById(R.id.backTologin)
     }
 
     private fun generateOTP(): String {
@@ -105,17 +92,22 @@ class MainActivity3 : AppCompatActivity() {
         return otp
     }
 
-    private fun setupOtpAutoFocusReverse() {
+    private fun setupOtpAutoFocus() {
         val otpEditTexts = listOf(edit_otp_1, edit_otp_2, edit_otp_3, edit_otp_4)
         for (i in otpEditTexts.indices) {
             otpEditTexts[i].addTextChangedListener(object : TextWatcher {
                 override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
 
                 override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
-                    if (s?.isEmpty() == true && before == 1 && i > 0) {
-                        otpEditTexts[i - 1].requestFocus()
-                    } else if (s?.length == 1 && i < otpEditTexts.size - 1) {
+                    if (s?.length == 1 && i < otpEditTexts.size - 1) {
                         otpEditTexts[i + 1].requestFocus()
+                    }
+                    else if (s?.length!=1 && i>otpEditTexts.size-1)
+                    {
+                        otpEditTexts[i-1].requestFocus()
+                    }
+                    else if (s?.length == 0 && i > 0) {
+                        otpEditTexts[i - 1].requestFocus()
                     }
                 }
 
@@ -123,6 +115,5 @@ class MainActivity3 : AppCompatActivity() {
             })
         }
     }
-
 
 }
