@@ -226,6 +226,7 @@ class DatabaseHelper private constructor(context: Context) :
                 val email = cursor.getString(cursor.getColumnIndexOrThrow(UserTable.Columns.EMAIL))
                 val password = cursor.getString(cursor.getColumnIndexOrThrow(UserTable.Columns.PASSWORD))
                 User(id, username, email, password)
+
             } else {
                 null
             }
@@ -258,6 +259,61 @@ class DatabaseHelper private constructor(context: Context) :
             false
         } finally {
             db.endTransaction()
+        }
+    }
+
+
+    fun checkverifynumberexist(phonenumber: String): Boolean {
+        val db = readableDatabase
+        val query = """
+        SELECT COUNT(*) FROM ${VerifiedUsersTable.NAME} 
+        WHERE ${VerifiedUsersTable.Columns.phonenumber} = ?
+    """
+        Log.d("DEBUG", "Query: $query, Phone: $phonenumber")
+
+        val cursor = db.rawQuery(query, arrayOf(phonenumber))
+        return cursor.use {
+            if (it.moveToFirst()) {
+                it.getInt(0) > 0
+            } else {
+                false
+            }
+        }
+    }
+
+    fun updatePassword(phonenumber: String, newPassword: String): Int {
+        val values = ContentValues().apply {
+            put(VerifiedUsersTable.Columns.PASSWORD, newPassword)
+
+        }
+        return try {
+            val rowsUpdated = writableDatabase.update(
+                VerifiedUsersTable.NAME, values,
+                "${VerifiedUsersTable.Columns.phonenumber} = ?",
+                arrayOf(phonenumber)
+
+            )
+            if (rowsUpdated > 0) {
+                Log.d("DatabaseHelper", "Password updated successfully")
+                return rowsUpdated
+            } else {
+                Log.e("DatabaseHelper", "No rows updated")
+                return -1
+            }
+        } catch (e: Exception) {
+            Log.e("DatabaseHelper", "Error updating user: ${e.message}")
+            return -1
+        }
+    }
+
+
+    fun updatePasswordBasedOnPhone(phonenumber: String, newPassword: String): Int {
+     if (checkverifynumberexist(phonenumber)) {
+
+            return updatePassword(phonenumber, newPassword)
+        } else {
+            Log.e("DatabaseHelper", "Phone number not found")
+            return -1
         }
     }
 

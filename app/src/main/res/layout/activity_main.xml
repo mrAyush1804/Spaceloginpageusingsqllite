@@ -15,7 +15,6 @@
 
     </LinearLayout>
 
-
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -23,22 +22,22 @@
         android:layout_centerHorizontal="true"
         android:layout_marginHorizontal="20dp"
         android:layout_marginVertical="20dp"
-        android:text="Space Hub"
         android:fontFamily="@font/poppin_bold"
+        android:text="Space Hub"
         android:textColor="@color/white"
-        android:textSize="40sp"/>
+        android:textSize="40sp" />
 
     <TextView
         android:id="@+id/text_username"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Username"
-        android:fontFamily="@font/poppin_bold"
         android:layout_above="@id/EditText_second"
-        android:textColor="@color/white"
-        android:textSize="18sp"
         android:layout_marginHorizontal="20sp"
-        android:layout_marginBottom="5dp"/>
+        android:layout_marginBottom="5dp"
+        android:fontFamily="@font/poppin_bold"
+        android:text="Username"
+        android:textColor="@color/white"
+        android:textSize="18sp" />
 
     <EditText
         android:id="@+id/EditText_second"
@@ -46,13 +45,13 @@
         android:layout_height="wrap_content"
         android:layout_above="@id/EditText_first"
         android:layout_centerInParent="true"
-        android:inputType="textAutoComplete"
-        android:maxLength="100"
-        android:maxEms="2"
         android:layout_marginHorizontal="20dp"
         android:layout_marginBottom="40dp"
         android:background="@drawable/edittext_degin"
         android:hint=" username"
+        android:inputType="textAutoComplete"
+        android:maxEms="2"
+        android:maxLength="100"
         android:padding="12dp"
         android:textColor="@color/white"
         android:textColorHint="@color/white" />
@@ -62,12 +61,12 @@
         android:id="@+id/txxt_password"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="password"
-        android:fontFamily="@font/poppin_bold"
         android:layout_above="@id/EditText_first"
+        android:layout_marginHorizontal="20dp"
+        android:fontFamily="@font/poppin_bold"
+        android:text="password"
         android:textColor="@color/white"
-        android:textSize="18sp"
-        android:layout_marginHorizontal="20dp"/>
+        android:textSize="18sp" />
 
 
     <EditText
@@ -76,27 +75,45 @@
         android:layout_height="wrap_content"
         android:layout_centerInParent="true"
         android:layout_marginHorizontal="20dp"
-        android:layout_marginBottom="20dp"
         android:background="@drawable/edittext_degin"
         android:hint=" password"
+        android:maxEms="2"
         android:maxLength="100"
         android:maxLines="1"
-        android:maxEms="2"
         android:padding="12dp"
         android:textColor="@color/white"
         android:textColorHint="@color/white" />
+
+    <TextView
+        android:id="@+id/textforgotpassword"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/EditText_first"
+        android:layout_marginHorizontal="30dp"
+        android:fontFamily="@font/poppin_bold"
+        android:text="Forgot password?"
+        android:textColor="@color/white"
+        android:textSize="16dp" />
+
+
+    <View
+        android:layout_width="140dp"
+        android:layout_height="3dp"
+        android:background="@color/white"
+        android:layout_marginHorizontal="32dp"
+        android:layout_above="@id/LoginButton_first"/>
 
 
     <androidx.appcompat.widget.AppCompatButton
         android:id="@+id/LoginButton_first"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@id/EditText_first"
+        android:layout_below="@id/textforgotpassword"
         android:layout_centerHorizontal="true"
         android:layout_marginHorizontal="40dp"
         android:layout_marginTop="30dp"
-        android:fontFamily="@font/poppins_medium"
         android:background="@drawable/btndegin"
+        android:fontFamily="@font/poppins_medium"
         android:paddingHorizontal="50dp"
         android:text="login"
         android:textColor="@color/white"
@@ -146,10 +163,10 @@
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
         android:layout_marginBottom="20dp"
+        android:fontFamily="@font/poppin_bold"
         android:text="MANAGED BY "
         android:textColor="@color/white"
-        android:textSize="30sp"
-        android:fontFamily="@font/poppin_bold"/>
+        android:textSize="30sp" />
 
     <TextView
         android:layout_width="wrap_content"
@@ -178,17 +195,17 @@
         android:layout_height="wrap_content"
         android:layout_below="@id/lennear_first"
         android:layout_centerHorizontal="true"
-        android:gravity="center_horizontal"
-        android:layout_marginTop="10dp">
+        android:layout_marginTop="10dp"
+        android:gravity="center_horizontal">
 
         <TextView
             android:id="@+id/text_dont_have_account"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Don't have an account? "
-            android:textColor="@color/white"
+            android:layout_marginTop="2dp"
             android:fontFamily="@font/poppins_medium"
-            android:layout_marginTop="2dp"/>
+            android:text="Don't have an account? "
+            android:textColor="@color/white" />
 
         <TextView
             android:id="@+id/text_singup"
@@ -196,14 +213,12 @@
             android:layout_height="wrap_content"
             android:layout_centerHorizontal="true"
             android:layout_toRightOf="@id/text_dont_have_account"
+            android:fontFamily="@font/poppin_bold"
             android:text="Sing up "
             android:textColor="@color/red"
-            android:fontFamily="@font/poppin_bold"
             android:textSize="16sp" />
 
     </RelativeLayout>
-
-
 
 
 </RelativeLayout>

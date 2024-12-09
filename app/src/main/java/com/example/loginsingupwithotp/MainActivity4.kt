@@ -25,7 +25,7 @@ class MainActivity4 : AppCompatActivity() {
 
     private fun fetchlist()
     {
-        datalist=databaseHelper!!.getUsers(50,5)
+        datalist=databaseHelper!!.getUsers(50,)
         adapter=recycalerviewadpter(datalist,this)
         recyclerView.layoutManager = LinearLayoutManager(this)
         recyclerView.adapter=adapter

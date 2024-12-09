@@ -11,11 +11,86 @@
 
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:background="@drawable/spacehome">
+
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@color/opacityone">
+
+
+            <ImageView
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:src="@drawable/meteor_icons_list"
+                android:layout_marginTop="10dp"
+                app:tint="@color/yellow"
+                android:layout_marginHorizontal="10dp"/>
+
+
+            <TextView
+                android:id="@+id/textspacezone"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="30sp"
+                android:fontFamily="@font/poppin_bold"
+                android:layout_centerHorizontal="true"
+                android:text="Space Zone"
+                android:textColor="@color/white"
+                android:layout_marginVertical="10dp"/>
+
+            <ImageView
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:src="@drawable/notification__1_"
+                android:layout_alignParentEnd="true"
+                android:layout_marginTop="15dp"
+                android:layout_marginHorizontal="10dp"
+                app:tint="@color/yellow" />
+
+
+            <ImageView
+                android:id="@+id/imagedegin"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/degin"
+                android:layout_below="@id/textspacezone"
+                android:layout_centerHorizontal="true">
+            </ImageView>
+
+            <TextView
+                android:layout_width="150dp"
+                android:layout_height="wrap_content"
+                android:text="DESCOVER HOW TO BE CREATIVE IN SPACE"
+                android:layout_marginHorizontal="25dp"
+                android:layout_marginVertical="10dp"
+                android:textSize="19sp"
+                android:gravity="center_horizontal"
+                android:textColor="@color/white"
+                android:layout_below="@id/textspacezone"
+                android:fontFamily="@font/poppin_bold"/>
+
+
+
+        </RelativeLayout>
+
+
+
+
+
 
 
 
         
     </RelativeLayout>
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recycleviewhome"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        tools:itemCount="9"
+        tools:listitem="@layout/homepagelist"/>
 
 </LinearLayout>

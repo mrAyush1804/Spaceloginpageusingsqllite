@@ -1,6 +1,7 @@
 package com.example.loginsingupwithotp
 
 import DatabaseHelper
+import android.annotation.SuppressLint
 import android.content.Intent
 import android.os.Bundle
 import android.widget.Button
@@ -18,6 +19,7 @@ class MainActivity : AppCompatActivity() {
     private lateinit var databaseHelper: DatabaseHelper
     private  lateinit var EditText_name:EditText
     private lateinit var EditText_passwor:EditText
+    @SuppressLint("MissingInflatedId")
     override fun onCreate(savedInstanceState: Bundle?) {
         window.statusBarColor = ContextCompat.getColor(this, R.color.black)
         super.onCreate(savedInstanceState)
@@ -37,11 +39,15 @@ class MainActivity : AppCompatActivity() {
             val intent=Intent(this,MainActivity2::class.java)
             startActivity(intent)
         }
+        val btnforgot=findViewById<TextView>(R.id.textforgotpassword)
+        btnforgot.setOnClickListener{
+            startActivity(Intent(this ,ForgetpasswordActivity::class.java))
+        }
     }
 
     fun loginuser(username:String,password:String)
     {
-       val userexist=databaseHelper.validateUser(username,password)
+       val userexist=databaseHelper. varifyvalidateUser(username,password)
         if (userexist)
         {
             Toast.makeText(this,"LOGIN SUCCESFULLY",Toast.LENGTH_SHORT).show()

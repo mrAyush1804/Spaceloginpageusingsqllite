@@ -91,9 +91,10 @@ class MainActivity2 : AppCompatActivity() {
             if (result != -1L) {
                 Toast.makeText(this, "Singup Successful", Toast.LENGTH_SHORT).show()
 
-
+                val flow = "login"
                 val intent = Intent(this, MainActivity3::class.java)
                 intent.putExtra("phoneNumber", EditText_phone.text.toString())
+                intent.putExtra("flow", flow)
                 startActivity(intent)
             } else {
                 Toast.makeText(this, "Invalid email or password", Toast.LENGTH_SHORT).show()

@@ -35,39 +35,84 @@ class MainActivity3 : AppCompatActivity() {
 
         inSlized()
         setupOtpAutoFocus()
+        val phoneNumber = intent.getStringExtra("phoneNumber") ?: intent.getStringExtra("forgetphone")
+        Phonnumbertext.text = phoneNumber.orEmpty()
 
-        Phonnumbertext.text = intent.getStringExtra("phoneNumber").orEmpty().toString()
+
+
 
 
         val otp = generateOTP()
         val expireTime = System.currentTimeMillis() + 300000
         val otpInserted = databaseHelper.insertOTP(Phonnumbertext.text.toString(), otp, expireTime)
         Toast.makeText(this, "OTP Sent: $otp", Toast.LENGTH_SHORT).show()
-        Button_verify.setOnClickListener{
-
+        Button_verify.setOnClickListener {
 
             val enteredOTP = edit_otp_1.text.toString() + edit_otp_2.text.toString() +
                     edit_otp_3.text.toString() + edit_otp_4.text.toString()
 
-            val storedOtp =databaseHelper.verifyAndCopyUser(Phonnumbertext.text.toString(),enteredOTP)
 
+            val flow = intent.getStringExtra("flow")
 
+            when (flow) {
+                "login" -> {
+                    val storedOtp = databaseHelper.verifyAndCopyUser(Phonnumbertext.text.toString(), enteredOTP)
 
+                    if (storedOtp) {
+                        Toast.makeText(this, "OTP Verified Successfully", Toast.LENGTH_SHORT).show()
+                        onOtpVerified(flow)
+                    } else {
+                        Toast.makeText(this, "Invalid OTP", Toast.LENGTH_SHORT).show()
+                    }
+                }
 
-            if ( storedOtp) {
-                Toast.makeText(this, "OTP Verified Successfully", Toast.LENGTH_SHORT).show()
-                val Userveryfy=databaseHelper.verifyAndCopyUser(Phonnumbertext.text.toString(),enteredOTP)
+                "forgot_password" -> {
 
-                startActivity(Intent(this, MainActivity4::class.java))
-            } else {
-                Toast.makeText(this, "Invalid OTP", Toast.LENGTH_SHORT).show()
+                    val checknoisverify = databaseHelper.checkverifynumberexist(Phonnumbertext.text.toString())
+
+                    if (checknoisverify) {
+                        Toast.makeText(this, "Phone number exists and is verified!", Toast.LENGTH_SHORT).show()
+                        onOtpVerified(flow)
+                    } else {
+                        Toast.makeText(this, "Phone number is not registered!", Toast.LENGTH_SHORT).show()
+                    }
+                }
+
+                else -> {
+                    Toast.makeText(this, "Invalid flow!", Toast.LENGTH_SHORT).show()
+                }
             }
         }
+
         resend.setOnClickListener{
             val otpResent = resendOTP(Phonnumbertext.text.toString())
             Toast.makeText(this, "OTP Resent: $otpResent", Toast.LENGTH_SHORT).show()
         }
 
+
+
+    }
+    private fun onOtpVerified(flow: String?) {
+        when (flow) {
+            "login" -> {
+
+                val intent = Intent(this, MainActivity4::class.java)
+                startActivity(intent)
+            }
+            "forgot_password" -> {
+
+                val intent = Intent(this, CreatenewpasswordActivity::class.java)
+                intent.putExtra("number", Phonnumbertext.text.toString())
+                startActivity(intent)
+            }
+            else -> {
+
+                finish()
+            }
+        }
+
+
+        finish()
     }
     fun inSlized()
     {

@@ -1,0 +1,109 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+
+
+    <com.google.android.material.card.MaterialCardView
+        android:layout_width="match_parent"
+        android:layout_height="700dp"
+        android:layout_marginVertical="10dp">
+
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+
+            <ImageView
+                android:id="@+id/imageprofile"
+                android:layout_width="match_parent"
+                android:layout_height="400dp"
+                android:src="@drawable/rocket__2_"/>
+
+            <ImageView
+                android:id="@+id/iamgelike"
+                android:layout_width="50dp"
+                android:layout_height="50sp"
+                android:src="@drawable/like__1_"
+                android:layout_below="@id/imageprofile"
+                app:tint="@color/Blue"
+                android:layout_marginStart="5dp"/>
+
+             <ImageView
+                android:id="@+id/save"
+                android:layout_width="40dp"
+                android:layout_height="40sp"
+                 android:src="@drawable/shave"
+                android:layout_below="@id/imageprofile"
+                 android:layout_toRightOf="@+id/iamgelike"
+                 android:layout_marginStart="15dp"
+                 app:tint="@color/Blue" />
+
+            <ImageView
+                android:id="@+id/share"
+                android:layout_width="40dp"
+                android:layout_height="40sp"
+                android:src="@drawable/arrow_right"
+                android:layout_below="@id/imageprofile"
+                android:layout_toRightOf="@+id/save"
+                android:layout_marginStart="15dp"
+                app:tint="@color/Blue" />
+
+
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/view_first"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/imageprofile"
+                android:layout_centerHorizontal="true"
+                android:layout_marginHorizontal="10dp"
+
+                android:background="@drawable/btndegin"
+                android:fontFamily="@font/poppins_medium"
+                android:layout_alignParentEnd="true"
+                android:paddingHorizontal="50dp"
+                android:text="view detail"
+                android:textColor="@color/white"
+                android:textStyle="bold" />
+
+
+            <TextView
+                android:id="@+id/tagone"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/iamgelike"
+                android:layout_marginTop="10dp"
+                android:text="#rocket seience"
+                android:layout_marginHorizontal="20dp"
+                android:fontFamily="@font/poppin_bold"
+                android:textColor="@color/Blue"/>
+            <TextView
+                android:id="@+id/hastagtwo"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/tagone"
+                android:layout_marginTop="10dp"
+                android:text="#rocket seience tecnology "
+                android:layout_marginHorizontal="20dp"
+                android:fontFamily="@font/poppin_bold"
+                android:textColor="@color/Blue"/>
+
+
+
+
+
+
+
+
+
+        </RelativeLayout>
+
+
+    </com.google.android.material.card.MaterialCardView>
+
+
+
+</LinearLayout>
