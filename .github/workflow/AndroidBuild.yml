@@ -1,0 +1,25 @@
+name: AndroidBuild
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v4.2.0
+
+      - name: Setup Java JDK
+        uses: actions/setup-java@v4.5.0
+
+      - name: Build with Gradle
+        run: ./gradlew build
+        with:
+          java-version: '11'
+          name: loginwithotp.apk
+          path: app/build/outputs/apk/debug/app-debug.apk
