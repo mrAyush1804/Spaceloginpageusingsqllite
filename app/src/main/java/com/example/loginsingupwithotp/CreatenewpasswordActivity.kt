@@ -45,6 +45,7 @@ class CreatenewpasswordActivity : AppCompatActivity() {
         val confirmPassword = editText2.text.toString()
         val phoneNumber = intent.getStringExtra("number")
 
+
         if (newPassword == confirmPassword) {
             Toast.makeText(this, "PASSWORD UPDATED SUCCESSFULLY", Toast.LENGTH_LONG).show()
             databaseHelper.updatePasswordBasedOnPhone(phoneNumber.toString().trim(),newPassword)

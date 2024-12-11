@@ -19,35 +19,36 @@ import androidx.core.view.WindowInsetsCompat
 @Suppress("DEPRECATION")
 class MainActivity3 : AppCompatActivity() {
     private lateinit var databaseHelper: DatabaseHelper
-    private lateinit var Phonnumbertext:TextView
-    private lateinit var edit_otp_1:EditText
-    private lateinit var edit_otp_2:EditText
-    private lateinit var edit_otp_3:EditText
-    private lateinit var edit_otp_4:EditText
-    private lateinit var Button_verify:Button
-    private lateinit var resend:TextView
+    private lateinit var Phonnumbertext: TextView
+    private lateinit var edit_otp_1: EditText
+    private lateinit var edit_otp_2: EditText
+    private lateinit var edit_otp_3: EditText
+    private lateinit var edit_otp_4: EditText
+    private lateinit var Button_verify: Button
+    private lateinit var resend: TextView
+
+
     override fun onCreate(savedInstanceState: Bundle?) {
         window.statusBarColor = ContextCompat.getColor(this, R.color.black)
         super.onCreate(savedInstanceState)
 
         setContentView(R.layout.activity_main3)
-        databaseHelper=DatabaseHelper.getInstance(this)
+        databaseHelper = DatabaseHelper.getInstance(this)
 
         inSlized()
         setupOtpAutoFocus()
-        val phoneNumber = intent.getStringExtra("phoneNumber") ?: intent.getStringExtra("forgetphone")
+        val phoneNumber =
+            intent.getStringExtra("phoneNumber") ?: intent.getStringExtra("forgetphone")
         Phonnumbertext.text = phoneNumber.orEmpty()
-
-
-
 
 
         val otp = generateOTP()
         val expireTime = System.currentTimeMillis() + 300000
         val otpInserted = databaseHelper.insertOTP(Phonnumbertext.text.toString(), otp, expireTime)
         Toast.makeText(this, "OTP Sent: $otp", Toast.LENGTH_SHORT).show()
-        Button_verify.setOnClickListener {
 
+
+        Button_verify.setOnClickListener {
             val enteredOTP = edit_otp_1.text.toString() + edit_otp_2.text.toString() +
                     edit_otp_3.text.toString() + edit_otp_4.text.toString()
 
@@ -56,7 +57,8 @@ class MainActivity3 : AppCompatActivity() {
 
             when (flow) {
                 "login" -> {
-                    val storedOtp = databaseHelper.verifyAndCopyUser(Phonnumbertext.text.toString(), enteredOTP)
+                    val storedOtp =
+                        databaseHelper.verifyAndCopyUser(Phonnumbertext.text.toString(), enteredOTP)
 
                     if (storedOtp) {
                         Toast.makeText(this, "OTP Verified Successfully", Toast.LENGTH_SHORT).show()
@@ -68,13 +70,18 @@ class MainActivity3 : AppCompatActivity() {
 
                 "forgot_password" -> {
 
-                    val checknoisverify = databaseHelper.checkverifynumberexist(Phonnumbertext.text.toString())
+                    val checknoisverify =
+                        databaseHelper.checkIfNumberExistsOrValidateOTP(Phonnumbertext.text.toString(),enteredOTP)
 
                     if (checknoisverify) {
-                        Toast.makeText(this, "Phone number exists and is verified!", Toast.LENGTH_SHORT).show()
+                        Toast.makeText(
+                            this,
+                            "Phone number exists and is verified!",
+                            Toast.LENGTH_SHORT
+                        ).show()
                         onOtpVerified(flow)
                     } else {
-                        Toast.makeText(this, "Phone number is not registered!", Toast.LENGTH_SHORT).show()
+                        Toast.makeText(this, "Fistty verify the number", Toast.LENGTH_SHORT).show()
                     }
                 }
 
@@ -84,27 +91,32 @@ class MainActivity3 : AppCompatActivity() {
             }
         }
 
-        resend.setOnClickListener{
+        resend.setOnClickListener {
             val otpResent = resendOTP(Phonnumbertext.text.toString())
             Toast.makeText(this, "OTP Resent: $otpResent", Toast.LENGTH_SHORT).show()
         }
 
 
-
     }
+
     private fun onOtpVerified(flow: String?) {
+        val enteredOTP = edit_otp_1.text.toString() + edit_otp_2.text.toString() +
+                edit_otp_3.text.toString() + edit_otp_4.text.toString()
         when (flow) {
             "login" -> {
 
                 val intent = Intent(this, MainActivity4::class.java)
                 startActivity(intent)
             }
+
             "forgot_password" -> {
 
                 val intent = Intent(this, CreatenewpasswordActivity::class.java)
                 intent.putExtra("number", Phonnumbertext.text.toString())
+                intent.putExtra("otp", enteredOTP)
                 startActivity(intent)
             }
+
             else -> {
 
                 finish()
@@ -114,15 +126,15 @@ class MainActivity3 : AppCompatActivity() {
 
         finish()
     }
-    fun inSlized()
-    {
-        Phonnumbertext=findViewById(R.id.Number_phone)
-        edit_otp_1=findViewById(R.id.otp1)
-        edit_otp_2=findViewById(R.id.otp2)
-        edit_otp_3=findViewById(R.id.otp3)
-        edit_otp_4=findViewById(R.id.otp4)
-        Button_verify=findViewById(R.id.verify_first)
-        resend=findViewById(R.id.click_to_resnd)
+
+    fun inSlized() {
+        Phonnumbertext = findViewById(R.id.Number_phone)
+        edit_otp_1 = findViewById(R.id.otp1)
+        edit_otp_2 = findViewById(R.id.otp2)
+        edit_otp_3 = findViewById(R.id.otp3)
+        edit_otp_4 = findViewById(R.id.otp4)
+        Button_verify = findViewById(R.id.verify_first)
+        resend = findViewById(R.id.click_to_resnd)
     }
 
     private fun generateOTP(): String {
@@ -141,17 +153,20 @@ class MainActivity3 : AppCompatActivity() {
         val otpEditTexts = listOf(edit_otp_1, edit_otp_2, edit_otp_3, edit_otp_4)
         for (i in otpEditTexts.indices) {
             otpEditTexts[i].addTextChangedListener(object : TextWatcher {
-                override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
+                override fun beforeTextChanged(
+                    s: CharSequence?,
+                    start: Int,
+                    count: Int,
+                    after: Int
+                ) {
+                }
 
                 override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
                     if (s?.length == 1 && i < otpEditTexts.size - 1) {
                         otpEditTexts[i + 1].requestFocus()
-                    }
-                    else if (s?.length!=1 && i>otpEditTexts.size-1)
-                    {
-                        otpEditTexts[i-1].requestFocus()
-                    }
-                    else if (s?.length == 0 && i > 0) {
+                    } else if (s?.length != 1 && i > otpEditTexts.size - 1) {
+                        otpEditTexts[i - 1].requestFocus()
+                    } else if (s?.length == 0 && i > 0) {
                         otpEditTexts[i - 1].requestFocus()
                     }
                 }

@@ -32,7 +32,7 @@ class DatabaseHelper private constructor(context: Context) :
             const val USERNAME = "username"
             const val PASSWORD = "password"
             const val EMAIL = "email"
-            const val phonenumber="Phonenumber"
+            const val phonenumber = "Phonenumber"
         }
     }
 
@@ -47,6 +47,7 @@ class DatabaseHelper private constructor(context: Context) :
         }
 
     }
+
     object VerifiedUsersTable {
         const val NAME = "VerifiedUsersTable"
 
@@ -55,9 +56,10 @@ class DatabaseHelper private constructor(context: Context) :
             const val USERNAME = "username"
             const val EMAIL = "email"
             const val PASSWORD = "password"
-            const val phonenumber="Phonenumber"
+            const val phonenumber = "Phonenumber"
         }
     }
+
     private val CREATE_VERIFIED_USERS_TABLE = """
     CREATE TABLE ${VerifiedUsersTable.NAME} (
         ${VerifiedUsersTable.Columns.ID} INTEGER PRIMARY KEY,
@@ -67,7 +69,6 @@ class DatabaseHelper private constructor(context: Context) :
         ${VerifiedUsersTable.Columns.phonenumber} TEXT NOT NULL UNIQUE
     )
 """.trimIndent()
-
 
 
     private val CREATE_USER_TABLE = """
@@ -91,7 +92,7 @@ class DatabaseHelper private constructor(context: Context) :
   """.trimIndent()
 
     private val DROP_USER_TABLE = "DROP TABLE IF EXISTS ${UserTable.NAME}"
-    private val DROP_OTP_TABLE  =  "DROP TABLE IF EXISTS ${OTPTable.NAME}"
+    private val DROP_OTP_TABLE = "DROP TABLE IF EXISTS ${OTPTable.NAME}"
 
 
     override fun onCreate(db: SQLiteDatabase) {
@@ -111,12 +112,12 @@ class DatabaseHelper private constructor(context: Context) :
     }
 
 
-    fun insertUser(username: String, email: String, password: String,phonenumber:String): Long {
+    fun insertUser(username: String, email: String, password: String, phonenumber: String): Long {
         val values = ContentValues().apply {
             put(UserTable.Columns.USERNAME, username)
             put(UserTable.Columns.EMAIL, email)
             put(UserTable.Columns.PASSWORD, password)
-            put(UserTable.Columns.phonenumber,phonenumber)
+            put(UserTable.Columns.phonenumber, phonenumber)
         }
 
         return try {
@@ -125,14 +126,14 @@ class DatabaseHelper private constructor(context: Context) :
             Log.e("DatabaseHelper", "Error inserting user", e)
             -1L
         }
+
     }
 
-    fun insertOTP(phonenumber:String,OTP:String,Expiretime:Long):Long
-    {
-        val values=ContentValues().apply {
-            put(OTPTable.Columns.OTP,OTP)
-            put(OTPTable.Columns.Phonenumber,phonenumber)
-            put(OTPTable.Columns.EXPIRETIME,Expiretime)
+    fun insertOTP(phonenumber: String, OTP: String, Expiretime: Long): Long {
+        val values = ContentValues().apply {
+            put(OTPTable.Columns.OTP, OTP)
+            put(OTPTable.Columns.Phonenumber, phonenumber)
+            put(OTPTable.Columns.EXPIRETIME, Expiretime)
             validateOTP(phonenumber, OTP)
         }
         return try {
@@ -142,7 +143,6 @@ class DatabaseHelper private constructor(context: Context) :
             -1L
 
         }
-
 
 
     }
@@ -158,10 +158,14 @@ class DatabaseHelper private constructor(context: Context) :
                     Log.d("DatabaseHelper", "Rows fetched: ${cursor.count}")
                     if (cursor.moveToFirst()) {
                         do {
-                            val id = cursor.getInt(cursor.getColumnIndexOrThrow(VerifiedUsersTable.Columns.ID))
-                            val username = cursor.getString(cursor.getColumnIndexOrThrow(VerifiedUsersTable.Columns.USERNAME))
-                            val email = cursor.getString(cursor.getColumnIndexOrThrow(VerifiedUsersTable.Columns.EMAIL))
-                            val password = cursor.getString(cursor.getColumnIndexOrThrow(VerifiedUsersTable.Columns.PASSWORD))
+                            val id =
+                                cursor.getInt(cursor.getColumnIndexOrThrow(VerifiedUsersTable.Columns.ID))
+                            val username =
+                                cursor.getString(cursor.getColumnIndexOrThrow(VerifiedUsersTable.Columns.USERNAME))
+                            val email =
+                                cursor.getString(cursor.getColumnIndexOrThrow(VerifiedUsersTable.Columns.EMAIL))
+                            val password =
+                                cursor.getString(cursor.getColumnIndexOrThrow(VerifiedUsersTable.Columns.PASSWORD))
                             userList.add(User(id, username, email, password))
                         } while (cursor.moveToNext())
                     }
@@ -181,7 +185,8 @@ class DatabaseHelper private constructor(context: Context) :
         return try {
             readableDatabase.rawQuery(query, arrayOf(phoneNumber, otp)).use { cursor ->
                 if (cursor.moveToFirst()) {
-                    val expiryTime = cursor.getLong(cursor.getColumnIndexOrThrow(OTPTable.Columns.EXPIRETIME))
+                    val expiryTime =
+                        cursor.getLong(cursor.getColumnIndexOrThrow(OTPTable.Columns.EXPIRETIME))
                     if (System.currentTimeMillis() <= expiryTime) {
                         deleteOTP(phoneNumber, otp)
                         true
@@ -222,9 +227,11 @@ class DatabaseHelper private constructor(context: Context) :
         val user: User? = readableDatabase.rawQuery(query, arrayOf(phoneNumber)).use { cursor ->
             if (cursor.moveToFirst()) {
                 val id = cursor.getInt(cursor.getColumnIndexOrThrow(UserTable.Columns.ID))
-                val username = cursor.getString(cursor.getColumnIndexOrThrow(UserTable.Columns.USERNAME))
+                val username =
+                    cursor.getString(cursor.getColumnIndexOrThrow(UserTable.Columns.USERNAME))
                 val email = cursor.getString(cursor.getColumnIndexOrThrow(UserTable.Columns.EMAIL))
-                val password = cursor.getString(cursor.getColumnIndexOrThrow(UserTable.Columns.PASSWORD))
+                val password =
+                    cursor.getString(cursor.getColumnIndexOrThrow(UserTable.Columns.PASSWORD))
                 User(id, username, email, password)
 
             } else {
@@ -262,20 +269,32 @@ class DatabaseHelper private constructor(context: Context) :
         }
     }
 
-
-    fun checkverifynumberexist(phonenumber: String): Boolean {
+    fun checkIfNumberExistsOrValidateOTP(phoneNumber: String, otp: String? = null): Boolean {
         val db = readableDatabase
-        val query = """
+
+
+        val checkNumberQuery = """
         SELECT COUNT(*) FROM ${VerifiedUsersTable.NAME} 
         WHERE ${VerifiedUsersTable.Columns.phonenumber} = ?
     """
-        Log.d("DEBUG", "Query: $query, Phone: $phonenumber")
+        Log.d("DEBUG", "Checking Phone Number: $phoneNumber")
 
-        val cursor = db.rawQuery(query, arrayOf(phonenumber))
+        val cursor = db.rawQuery(checkNumberQuery, arrayOf(phoneNumber))
         return cursor.use {
             if (it.moveToFirst()) {
-                it.getInt(0) > 0
+                val count = it.getInt(0)
+                Log.d("DEBUG", "Phone Number Count: $count")
+
+
+                if (count > 0 && otp != null) {
+                    Log.d("DEBUG", "Phone number exists, validating OTP")
+                    return@use validateOTP(phoneNumber, otp)
+                }
+
+
+                count > 0
             } else {
+                Log.d("DEBUGing", "No records found for Phone Number: $phoneNumber")
                 false
             }
         }
@@ -284,20 +303,22 @@ class DatabaseHelper private constructor(context: Context) :
     fun updatePassword(phonenumber: String, newPassword: String): Int {
         val values = ContentValues().apply {
             put(VerifiedUsersTable.Columns.PASSWORD, newPassword)
-
         }
-        return try {
+
+        try {
+
             val rowsUpdated = writableDatabase.update(
                 VerifiedUsersTable.NAME, values,
                 "${VerifiedUsersTable.Columns.phonenumber} = ?",
                 arrayOf(phonenumber)
-
             )
+
+            Log.d("DEBUG", "Rows Updated: $rowsUpdated")
             if (rowsUpdated > 0) {
                 Log.d("DatabaseHelper", "Password updated successfully")
                 return rowsUpdated
             } else {
-                Log.e("DatabaseHelper", "No rows updated")
+                Log.e("DatabaseHelper", "No rows updated, phone number might not exist")
                 return -1
             }
         } catch (e: Exception) {
@@ -306,17 +327,16 @@ class DatabaseHelper private constructor(context: Context) :
         }
     }
 
-
     fun updatePasswordBasedOnPhone(phonenumber: String, newPassword: String): Int {
-     if (checkverifynumberexist(phonenumber)) {
 
+        if (checkIfNumberExistsOrValidateOTP(phonenumber)) {
+            Log.d("DEBUG", "Phone number and OTP valid, proceeding with password update.")
             return updatePassword(phonenumber, newPassword)
         } else {
-            Log.e("DatabaseHelper", "Phone number not found")
+            Log.e("DatabaseHelper", "Phone number not found or invalid OTP")
             return -1
         }
     }
-
 
     fun updateUser(id: Int, username: String, email: String, password: String): Int {
         val values = ContentValues().apply {
@@ -344,11 +364,6 @@ class DatabaseHelper private constructor(context: Context) :
             arrayOf(id.toString())
         )
     }
-
-
-
-
-
 
 
     fun varifyvalidateUser(username: String, password: String): Boolean {

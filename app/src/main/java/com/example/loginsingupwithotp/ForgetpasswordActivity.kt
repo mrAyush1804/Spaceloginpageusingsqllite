@@ -24,18 +24,28 @@ class ForgetpasswordActivity : AppCompatActivity() {
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
             insets
         }
-        val edittextPhoneforgot=findViewById<EditText>(R.id.edittext_phone_forgot)
-        val sendotp = findViewById<Button>(R.id.SEND_OTP)
-        sendotp.setOnClickListener {
-            val flow = "forgot_password"
-            val intent = Intent(this, MainActivity3::class.java)
-            intent.putExtra("forgetphone",edittextPhoneforgot.text.toString())
-            intent.putExtra("flow", flow)
-            startActivity(intent)
 
+        val edittextPhoneforgot = findViewById<EditText>(R.id.edittext_phone_forgot)
+        val sendOtp = findViewById<Button>(R.id.SEND_OTP)
+
+
+        val phoneNumberValidator = PhoneNumberValidator()
+
+        sendOtp.setOnClickListener {
+            val phoneNumber = edittextPhoneforgot.text.toString()
+            val validationError = phoneNumberValidator.validate(phoneNumber)
+
+            if (validationError != null) {
+
+                edittextPhoneforgot.error = validationError
+            } else {
+
+                val flow = "forgot_password"
+                val intent = Intent(this, MainActivity3::class.java)
+                intent.putExtra("forgetphone", phoneNumber)
+                intent.putExtra("flow", flow)
+                startActivity(intent)
+            }
         }
-
-
-
     }
 }
